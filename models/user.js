@@ -21,11 +21,11 @@ const userSchema = new Schema({
         type : String,
         required : true,
     },
-    posts : {
-        type : Object,
-        required : false
-    }
-});
+    posts : [{
+        type : Schema.Types.ObjectId,
+        ref : 'Book'
+    }]
+},{timestamps : true});
 
 
 module.exports = mongoose.model('User', userSchema);
