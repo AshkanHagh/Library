@@ -1,6 +1,6 @@
 # A Book-Store REST API With [Node](https://nodejs.org/), [Express](https://expressjs.com/), [MongoDB](https://www.mongodb.com/)
 
-<img src="images/hero-rest-large@2x.jpg" max-width="100%"/>
+<img src="images/Book-Store.png" max-width="100%"/>
 
 Features :
 
@@ -12,14 +12,9 @@ Features :
 * Postman testing
 * Create, Read, Update, Delete
 
-### Prerequisites
+### Description
 
-Node version 14.x
-
-### Cloning the repository
-```
- git clone https://github.com/AshkanHagh/Authentication.git
-```
+A rest api I created to level up my skills and has authentication.for the user can add a book that everyone can see and only the person who owns the book can edit or delete the book.
 
 ### Install packages
 ```
