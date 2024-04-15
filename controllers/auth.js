@@ -69,7 +69,7 @@ exports.login = async (req, res, next) => {
             throw error;
         }
 
-        const token = jwt.sign({email : user.email, userId : user._id.toString()}, 'BockStore', {expiresIn : '1h'});
+        const token = jwt.sign({email : user.email, userId : user._id.toString()}, process.env.JWT_SECRET, {expiresIn : '1h'});
 
         res.status(200).json({message : 'Welcome', userId : user._id, token : token});
 

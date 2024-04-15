@@ -11,7 +11,7 @@ const postRouter = require('./routes/post');
 const app = express();
 
 require('dotenv').config();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 5500;
 
 
 const storage = multer.diskStorage({

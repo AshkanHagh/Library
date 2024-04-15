@@ -1,7 +1,6 @@
 const { validationResult } = require('express-validator');
 const path = require('path');
 const fs = require('fs');
-const mongoose = require('mongoose');
 
 const Book = require('../models/book');
 const User = require('../models/user');
@@ -54,7 +53,7 @@ exports.createPost = async (req, res, next) => {
 
 }
 
-exports.getPosts = async (req, res, nexr) => {
+exports.getPosts = async (req, res, next) => {
 
     try {
         const post = await Book.find().populate('author', 'username');
@@ -89,7 +88,7 @@ exports.getSinglePost = async (req, res, next) => {
             throw error;
         }
 
-        res.status(200).json({message : 'Your post has been fethced', post : post});
+        res.status(200).json({message : 'Your post has been fetched', post : post});
 
     } catch (error) {
         
@@ -161,7 +160,7 @@ exports.updatePost = async (req, res, next) => {
 
 }
 
-exports.deletePost = async (req, res ,next) => {
+exports.deletePost = async (req, res, next) => {
 
     try {
         const post = await Book.findById(req.params.postId);
@@ -210,7 +209,7 @@ const clearImage = (filePath) => {
     if(fs.existsSync(filePath)) {
 
         fs.unlinkSync(filePath);
-        console.log('image deleted sucessfully');
+        console.log('image deleted successfully');
     }
     else {
         console.log('image not found');

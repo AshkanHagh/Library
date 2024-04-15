@@ -1,10 +1,10 @@
 {
   "name": "book-store",
-  "version": "1.0.0",
+  "version": "2.1.2",
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",

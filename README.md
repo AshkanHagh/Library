@@ -25,9 +25,10 @@ npm i
 ``` javascript
 MONGODB_URL = 
 PORT = 
+JWT_SECRET =
 ```
 
 ### Start the app
 ```
-npm start
+npm run dev
 ```
