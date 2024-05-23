@@ -1,6 +1,7 @@
 import express, { type NextFunction, type Request, type Response } from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import { ErrorMiddleware } from './middlewares/error';
 
 export const app = express();
 
@@ -13,3 +14,5 @@ app.get('/*', (req : Request, res : Response, next : NextFunction) => {
     const error = new Error(`Route ${req.originalUrl} not found`);
     next(error);
 });
+
+app.use(ErrorMiddleware);
