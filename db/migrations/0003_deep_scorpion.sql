@@ -1,0 +1,1 @@
+ALTER TABLE "UserTable" DROP COLUMN IF EXISTS "profilePic";

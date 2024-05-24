@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
+import type { TMailOption } from '../@types';
 
-const sendEmail = async (option : TOption) : Promise<void> => {
+const sendEmail = async (option : TMailOption) : Promise<void> => {
 
     const transport = nodemailer.createTransport({
         host: process.env.SMTP_HOST as string,

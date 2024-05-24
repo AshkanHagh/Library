@@ -1,3 +1,5 @@
+import type { UserTable } from '../db/schema'
+
 type TMailOption = {
     subject : string
     text : string
@@ -8,6 +10,17 @@ type TMailOption = {
 type TErrorHandler = {
     statusCode : Number
     message : string
+}
+
+type TInferSelect = typeof UserTable.$inferInsert
+type TInferInsert = typeof UserTable.$inferSelect
+
+declare global {
+    namespace Express {
+        interface Request {
+            user? : TInferSelect
+        }
+    }
 }
 
 type TActivationCode = {
