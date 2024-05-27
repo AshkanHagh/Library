@@ -24,3 +24,23 @@ const login = Joi.object({
 });
 
 export const validateLogin = validator(login);
+
+const createProduct = Joi.object({
+    name : Joi.string().required(),
+    description : Joi.string().required(),
+    price : Joi.number().required(),
+    availableQuantity : Joi.number().required(),
+    categories: Joi.array().items(Joi.string().required()).optional()
+});
+
+export const validateNewProduct = validator(createProduct);
+
+const editProduct = Joi.object({
+    name : Joi.string(),
+    description : Joi.string(),
+    price : Joi.number(),
+    availableQuantity : Joi.number(),
+    categories: Joi.array().items(Joi.string()).optional()
+});
+
+export const validateUpdateProduct = validator(editProduct);

@@ -8,7 +8,7 @@ import bcrypt from 'bcrypt';
 import { createActivationToken } from '../utils/activationToken';
 import sendEmail from '../utils/sendMail';
 import jwt, { type JwtPayload, type Secret } from 'jsonwebtoken';
-import type { TActivationRequest, TInferInsert, TInferSelect } from '../@types';
+import type { TActivationRequest, TInferInsertUser, TInferSelectUser } from '../@types';
 import { accessTokenOption, refreshTokenOption, sendToken } from '../utils/jwt';
 import redis from '../db/redis';
 
@@ -17,9 +17,9 @@ export const register = CatchAsyncError(async (req : Request, res : Response, ne
     try {
         const { error, value } = validateRegister(req.body);
         if(error) return next(new ErrorHandler(error.message, 400));
-        const { fullName, email, phone, password } = value as TInferInsert;
+        const { fullName, email, phone, password } = value as TInferInsertUser;
 
-        const isEmailExists = await db.query.UserTable.findFirst({where : (table, func) => func.eq(UserTable.email, email)}) as TInferSelect;
+        const isEmailExists = await db.query.UserTable.findFirst({where : (table, funcs) => funcs.eq(table.email, email)}) as TInferSelectUser;
         if(isEmailExists) return next(new ErrorHandler('Email already exists', 400));
 
         const salt = await bcrypt.genSalt(10);
@@ -63,15 +63,15 @@ export const verifyAccount = CatchAsyncError(async (req : Request, res : Respons
         if(error) return next(new ErrorHandler(error.message, 400));
         const { activationToken, activationCode } = value as TActivationRequest;
 
-        const newUser : {user : TInferSelect, activationCode : string} = jwt.verify(activationToken, 
+        const newUser : {user : TInferSelectUser, activationCode : string} = jwt.verify(activationToken, 
             process.env.ACTIVATION_TOKEN as Secret
-        ) as {user : TInferSelect, activationCode : string}
+        ) as {user : TInferSelectUser, activationCode : string}
 
         if(newUser.activationCode !== activationCode) return next(new ErrorHandler('Invalid verify code', 400));
 
         const { fullName, email, phone, password } = newUser.user;
 
-        const isEmailExists = await db.query.UserTable.findFirst({where : (table, func) => func.eq(UserTable.email, email)}) as TInferSelect;
+        const isEmailExists = await db.query.UserTable.findFirst({where : (table, funcs) => funcs.eq(table.email, email)}) as TInferSelectUser;
         if(isEmailExists) return next(new ErrorHandler('Email already exists', 400));
 
         await db.insert(UserTable).values({fullName, email, phone, password});
@@ -88,9 +88,9 @@ export const login = CatchAsyncError(async (req : Request, res : Response, next 
     try {
         const {error, value} = validateLogin(req.body);
         if(error) return next(new ErrorHandler(error.message, 400));
-        const { email, password } = value as TInferInsert
+        const { email, password } = value as TInferInsertUser
 
-        const user = await db.query.UserTable.findFirst({where : (table, func) => func.eq(UserTable.email, email)}) as TInferSelect;
+        const user = await db.query.UserTable.findFirst({where : (table, funcs) => funcs.eq(table.email, email)}) as TInferSelectUser;
         const isPasswordMatch = await bcrypt.compare(password, user?.password || '');
 
         if(!user || !isPasswordMatch) return next(new ErrorHandler('Invalid email or password', 400));
@@ -125,7 +125,7 @@ export const refreshToken = CatchAsyncError(async (req : Request, res : Response
         if(!decoded) return next(new ErrorHandler('Could not refresh token', 400));
         
         const session = await redis.get(`user:${decoded.id}`);
-        if(!session) return next(new ErrorHandler('Plase login to access this resources', 400));
+        if(!session) return next(new ErrorHandler('Please login to access this resources', 400));
 
         const user = JSON.parse(session);
         req.user = user;

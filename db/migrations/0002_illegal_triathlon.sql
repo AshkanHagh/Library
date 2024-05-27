@@ -1,1 +1,0 @@
-ALTER TABLE "UserTable" ADD COLUMN "profilePic" text NOT NULL;

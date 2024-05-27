@@ -1,7 +1,7 @@
 import type { Response } from 'express';
 import jwt, { type Secret } from 'jsonwebtoken';
 import redis from '../db/redis';
-import type { TCookieOption, TInferSelect } from '../@types';
+import type { TCookieOption, TInferSelectUser } from '../@types';
 
 const accessTokenExpire = parseInt(process.env.ACCESS_TOKEN_EXPIRE || '300', 10);
 const refreshTokenExpire = parseInt(process.env.REFRESH_TOKEN_EXPIRE || '1200', 10);
@@ -20,7 +20,7 @@ export const refreshTokenOption : TCookieOption = {
     sameSite : 'lax'
 }
 
-export const sendToken = (user : TInferSelect, statusCode : number, res : Response) => {
+export const sendToken = (user : TInferSelectUser, statusCode : number, res : Response) => {
     const accessToken = jwt.sign({id : user.id}, process.env.ACCESS_TOKEN as Secret, {expiresIn : '5m'});
     const refreshToken = jwt.sign({id : user.id}, process.env.REFRESH_TOKEN as Secret, {expiresIn : '7d'});
 

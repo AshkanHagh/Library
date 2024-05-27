@@ -1,4 +1,4 @@
-import type { UserTable } from '../db/schema'
+import type { BookCategoryTable, BookTable, CategoryTable, InventoryTable, UserTable } from '../db/schema'
 
 type TMailOption = {
     subject : string
@@ -12,13 +12,25 @@ type TErrorHandler = {
     message : string
 }
 
-type TInferSelect = typeof UserTable.$inferInsert
-type TInferInsert = typeof UserTable.$inferSelect
+type TInferSelectUser = typeof UserTable.$inferInsert
+type TInferInsertUser = typeof UserTable.$inferSelect
+
+type TInferInsertBook = typeof BookTable.$inferInsert
+type TInferSelectBook = typeof BookTable.$inferSelect
+
+type TInferInsertCategory = typeof CategoryTable.$inferInsert
+type TInferSelectCategory = typeof CategoryTable.$inferSelect
+
+type TInferInsertInventory = typeof InventoryTable.$inferInsert
+type TInferSelectInventory = typeof InventoryTable.$inferSelect
+
+type TInferInsertBookCategory = typeof BookCategoryTable.$inferInsert
+type TInferSelectBookCategory = typeof BookCategoryTable.$inferSelect
 
 declare global {
     namespace Express {
         interface Request {
-            user? : TInferSelect
+            user? : TInferSelectUser
         }
     }
 }
